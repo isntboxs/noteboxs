@@ -4,7 +4,7 @@ import { sortPosts } from "@/lib/formatPosts";
 
 import { BlogCard } from "../_components/blog/BlogCard";
 
-const BlogPage = () => {
+const BlogPage = async () => {
   const sortedPosts = sortPosts(posts.filter((post) => post.published));
   const displayPosts = sortedPosts;
 
