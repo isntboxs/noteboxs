@@ -1,0 +1,123 @@
+---
+title: satu lagi nanggung
+description: oakwdokwaqokawk au satu lagi asli
+date: 2024-07-17
+published: true
+---
+
+Untuk memasukkan gambar dari repositori GitHub di dalam file MDX dalam proyek Next.js, kamu bisa mengikuti langkah-langkah ini. Anggap kamu sudah memiliki struktur proyek seperti ini:
+
+```
+.
+├── blog
+│   └── post.mdx
+└── public
+    ├── images
+    │   └── example.jpg
+```
+
+1. **Tempatkan Gambar di Folder Publik**: Simpan gambar yang ingin kamu gunakan di dalam folder `public/images` atau subfolder yang sesuai dalam proyek Next.js kamu.
+
+2. **Gunakan Gambar di dalam File MDX**: Masukkan gambar ke dalam file MDX dengan menggunakan path yang sesuai.
+
+Berikut adalah contoh lengkap cara melakukannya:
+
+### 1. Struktur Direktori
+
+Pastikan struktur direktori kamu sesuai:
+
+```
+my-nextjs-app/
+├── public/
+│   └── images/
+│       └── example.jpg
+├── blog/
+│   └── post.mdx
+├── pages/
+│   └── _app.js
+│   └── index.js
+├── styles/
+│   └── globals.css
+├── next.config.js
+├── package.json
+└── ... (file dan folder lainnya)
+```
+
+### 2. Konfigurasi `next.config.js`
+
+Jika kamu belum punya file `next.config.js`, buat satu dan pastikan kamu mengaktifkan dukungan MDX:
+
+```javascript
+// next.config.js
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+});
+module.exports = withMDX({
+  pageExtensions: ["js", "jsx", "md", "mdx"],
+});
+```
+
+### 3. Buat atau Ubah File `_app.js`
+
+Pastikan kamu memiliki file `_app.js` untuk mengatur aplikasi Next.js kamu:
+
+```javascript
+// pages/_app.js
+import "../styles/globals.css";
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+
+export default MyApp;
+```
+
+### 4. Buat atau Ubah Halaman Index
+
+Pastikan halaman utama kamu mengimpor dan merender file MDX:
+
+```javascript
+// pages/index.js
+import dynamic from "next/dynamic";
+
+const Post = dynamic(() => import("../blog/post.mdx"));
+
+export default function Home() {
+  return (
+    <div>
+      <h1>Welcome to My Blog</h1>
+      <Post />
+    </div>
+  );
+}
+```
+
+### 5. Gunakan Gambar di dalam File MDX
+
+Pastikan gambar yang kamu referensikan berada di dalam folder `public/images`:
+
+```mdx
+// blog/post.mdx
+
+import Image from "next/image";
+
+# My Blog Post
+
+Here is an example image:
+
+![Example Image](/images/example.jpg)
+
+Or using the Next.js Image component:
+
+<Image src="/images/example.jpg" alt="Example Image" width={600} height={400} />
+```
+
+### 6. Jalankan Aplikasi Next.js
+
+Sekarang, jalankan aplikasi Next.js kamu:
+
+```bash
+npm run dev
+```
+
+Aplikasi kamu sekarang seharusnya bisa merender gambar dari folder `public/images` di dalam file MDX. Gambar dapat diakses dengan menggunakan path `/images/example.jpg`, baik secara langsung di markdown dengan sintaks `![Example Image](/images/example.jpg)` atau dengan menggunakan komponen `Image` dari Next.js.

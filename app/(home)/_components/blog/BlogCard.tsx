@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { VscVerifiedFilled } from "react-icons/vsc";
 
+import { formatDate } from "@/lib/formatPosts";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
@@ -58,47 +59,42 @@ export default SampleBlogCard;
 
 interface BlogItemProps {
   title: string;
-  description: string;
-  href: string;
-  image: string;
+  description?: string;
+  slug: string;
   date: string;
-  author: {
-    name: string;
-    image: string;
-  };
 }
 
-export const BlogCard = ({
-  title,
-  description,
-  href,
-  image,
-  date,
-  author,
-}: BlogItemProps) => {
+export const BlogCard = ({ title, description, slug, date }: BlogItemProps) => {
   return (
     <Card>
       <CardHeader className="flex justify-between">
         <div className="flex items-center space-x-4">
           <Avatar>
-            <AvatarImage src={author.image} alt={author.name} />
+            <AvatarImage src="https://github.com/mrboxs.png" alt="mrboxs" />
             <AvatarFallback>mr</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
             <p className="text-base font-medium">
-              {author.name} <VscVerifiedFilled className="inline-flex" />
+              MrBoxs <VscVerifiedFilled className="inline-flex" />
             </p>
-            <span className="text-sm text-muted-foreground">{date}</span>
+            <span className="text-sm text-muted-foreground">
+              {formatDate(date)}
+            </span>
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-1">
-        <CardTitle>{title}</CardTitle>
+        <Link
+          href={slug}
+          className={cn(buttonVariants({ variant: "link" }), "p-0")}
+        >
+          <CardTitle>{title}</CardTitle>
+        </Link>
         <CardDescription>{description}</CardDescription>
       </CardContent>
       <CardFooter className="flex justify-end">
         <Link
-          href={href}
+          href={slug}
           className={cn(
             buttonVariants({ variant: "ghost", size: "sm" }),
             "group"

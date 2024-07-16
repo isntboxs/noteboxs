@@ -1,0 +1,128 @@
+---
+title: test lagi 2
+description: testing lagi, tapi ini yang ke 2
+date: 2024-07-17
+published: true
+---
+
+Untuk merender markdown dengan syntax highlighting di Next.js, kamu bisa menggunakan beberapa plugin dan library yang tersedia di ekosistem JavaScript. Berikut adalah langkah-langkah untuk membuatnya:
+
+1. **Install dependencies**: Kamu memerlukan beberapa paket untuk merender markdown dengan syntax highlighting di Next.js, seperti `remark`, `remark-html`, `rehype-highlight`, dan `next-mdx-remote`.
+
+```bash
+npm install remark remark-html rehype-highlight next-mdx-remote
+```
+
+2. **Setup Next.js**: Buat konfigurasi yang diperlukan di file Next.js kamu.
+
+3. **Buat fungsi untuk memproses markdown**: Buat utilitas untuk mengonversi markdown menjadi HTML dengan syntax highlighting.
+
+Berikut adalah contoh implementasi:
+
+### Install Dependencies
+
+Jalankan perintah ini di terminal:
+
+```bash
+npm install remark remark-html rehype-highlight next-mdx-remote
+```
+
+### Buat Halaman Next.js untuk Merender Markdown
+
+1. **Buat utilitas untuk mengonversi markdown**:
+
+   Buat file `lib/markdownToHtml.js`:
+
+   ```javascript
+   import highlight from "rehype-highlight";
+   import { remark } from "remark";
+   import html from "remark-html";
+
+   export default async function markdownToHtml(markdown) {
+     const result = await remark()
+       .use(html, { sanitize: false })
+       .use(highlight)
+       .process(markdown);
+     return result.toString();
+   }
+   ```
+
+2. **Buat halaman untuk merender markdown**:
+
+   Buat atau ubah file `pages/index.js`:
+
+   ```javascript
+   import { useEffect, useState } from "react";
+
+   import markdownToHtml from "../lib/markdownToHtml";
+   import styles from "../styles/Home.module.css";
+
+   const markdownContent = `
+   ### app/page.tsx
+   
+   \`\`\`tsx
+   async function getData() {
+     const res = await fetch('https://api.example.com/...')
+     // The return value is *not* serialized
+     // You can return Date, Map, Set, etc.
+   
+     if (!res.ok) {
+       // This will activate the closest \`error.js\` Error Boundary
+       throw new Error('Failed to fetch data')
+     }
+   
+     return res.json()
+   }
+   
+   export default async function Page() {
+     const data = await getData()
+   
+     return <main></main>
+   }
+   \`\`\`
+   `;
+
+   export default function Home() {
+     const [content, setContent] = useState("");
+
+     useEffect(() => {
+       async function convertMarkdown() {
+         const html = await markdownToHtml(markdownContent);
+         setContent(html);
+       }
+       convertMarkdown();
+     }, []);
+
+     return (
+       <div className={styles.container}>
+         <main className={styles.main}>
+           <div dangerouslySetInnerHTML={{ __html: content }} />
+         </main>
+       </div>
+     );
+   }
+   ```
+
+3. **Tambahkan styling untuk syntax highlighting**:
+
+   Install `highlight.js` styles:
+
+   ```bash
+   npm install highlight.js
+   ```
+
+   Tambahkan CSS untuk syntax highlighting di `styles/globals.css`:
+
+   ```css
+   @import "highlight.js/styles/github.css"; /* Atau pilih tema highlight.js yang diinginkan */
+   ```
+
+### Jalankan Aplikasi Next.js
+
+Sekarang, kamu bisa menjalankan aplikasi Next.js kamu dengan:
+
+```bash
+npm run dev
+```
+
+Aplikasi kamu seharusnya dapat merender markdown dengan syntax highlighting yang sesuai, mirip dengan contoh gambar yang kamu unggah.

@@ -1,0 +1,68 @@
+---
+title: testing blog
+description: testing first blog. you can use markdown here.
+date: 2024-07-17
+published: true
+---
+
+Untuk menambahkan nama file di atas kode dalam markdown, kamu bisa menggunakan teks biasa atau heading diikuti oleh kode tersebut. Markdown secara langsung tidak mendukung penamaan file dalam fenced code blocks, namun kamu bisa membuatnya terlihat lebih jelas dengan menambahkan teks sebelum kode.
+
+Berikut adalah contoh bagaimana kamu bisa melakukannya:
+
+````markdown
+**app/page.tsx**
+
+```tsx
+async function getData() {
+  const res = await fetch("https://api.example.com/...");
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+export default async function Page() {
+  const data = await getData();
+
+  return <main></main>;
+}
+```
+````
+
+````
+
+Atau menggunakan heading:
+
+```markdown
+### app/page.tsx
+
+```tsx
+async function getData() {
+  const res = await fetch('https://api.example.com/...')
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+
+  return res.json()
+}
+
+export default async function Page() {
+  const data = await getData()
+
+  return <main></main>
+}
+````
+
+```
+
+Dengan cara ini, nama file akan terlihat jelas di atas blok kode, membuat dokumentasi kamu lebih terstruktur dan mudah dibaca.
+```
