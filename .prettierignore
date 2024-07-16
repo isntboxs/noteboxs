@@ -36,6 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+.idx
 .vscode
 pnpm-lock.yaml
-.idx
